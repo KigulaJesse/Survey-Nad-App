@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+    <servlet>
+        <servlet-name>InsertData</servlet-name>
+        <servlet-class>InsertData</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>InsertData</servlet-name>
+        <url-pattern>/InsertData</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Login</servlet-name>
+        <servlet-class>Login</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Login</servlet-name>
+        <url-pattern>/Login</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>CreateSurvey</servlet-name>
+        <servlet-class>CreateSurvey</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CreateSurvey</servlet-name>
+        <url-pattern>/CreateSurvey</url-pattern>
+    </servlet-mapping>
+    
+</web-app>
