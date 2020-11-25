@@ -52,6 +52,8 @@
 			out.println("SQLException caught: " +e.getMessage());
 		}
 	%>	
+
+	
 	<div id="preloader">
 		<div data-loader="circle-side"></div>
 	</div><!-- /Preload -->

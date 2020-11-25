@@ -96,38 +96,16 @@
 							<div id="progressbar"></div>
 						</div>
 						<!-- /top-wizard -->
-						<form method="POST" action="./AddSurveyField">
+						<form method="POST" action="./AddSurveyFieldValue">
 							<input id="website" name="website" type="text" value="">
-                            <input type = "hidden" name="survey_id" value = "<%= request.getParameter("id")%>">
+                            <input type = "hidden" name="survey_field_id" value = "<%= request.getParameter("survey_field_id")%>">
                             <!-- Leave for security protection, read docs for details -->
 							<div id="middle-wizard">
 								<div class="submit step">
-									<h3 class="main_question">Add Survey Field</h3>
+									<h3 class="main_question">Add Survey Field Value</h3>
 									<div class="form-group">
-										<input type="text" name="field_name" class="form-control required" placeholder="Field Name">
-									</div>
-									<div class="form-group">
-										<div class="styled-select clearfix">
-											<select class="wide required" name="field_type">
-												<option value="">Field Type</option>
-												<option value="Star Rating">Star Rating</option>
-												<option value="Radio Button">Radio Button</option>
-												<option value="CheckBox">Checkbox</option>
-												<option value="Text Box">Text Box</option>
-												<option value="Comment Box">Comment Box</option>                             
-											</select>
-										</div>
-									</div>
-									<div class="form-group">
-										<input type="maximum" name="maximum" class="form-control required" placeholder="Maximum" value="Maximum">
-									</div>
-									<div class="form-group">
-										<input type="minimum" name="minimum" class="form-control required" placeholder="Minimum" value="null">
-									</div>
-									<div class="form-group ">
-										<textarea name="field_description" class="form-control review_message required" placeholder="Survey Topic and a brief summary" onkeyup="getVals(this, 'review_message');"></textarea>
-									</div>
-                                        
+										<input type="text" name="survey_field_value" class="form-control required" placeholder="Survey Field Value">
+									</div>    
 								</div>
 							</div>
 							<!-- /middle-wizard -->

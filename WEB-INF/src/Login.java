@@ -33,13 +33,9 @@ public class Login extends HttpServlet{
                 out.println("<tr>");
                 out.println("<td>"+resultSet.getString(2) + "</td>");
                 out.println("</tr>");
-                response.sendRedirect("/Survey/create_survey.jsp");
+                response.sendRedirect("/Survey/all_survey.jsp");
             }
-
-            response.sendRedirect("/Survey/login.jsp");
-
-            
-
+            response.sendRedirect("/Survey/all_survey.jsp");
         }
         catch (Exception e){
             e.printStackTrace();

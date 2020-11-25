@@ -31,4 +31,32 @@
         <url-pattern>/CreateSurvey</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <servlet-name>AddSurveyField</servlet-name>
+        <servlet-class>AddSurveyField</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddSurveyField</servlet-name>
+        <url-pattern>/AddSurveyField</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>AddSurveyFieldValue</servlet-name>
+        <servlet-class>AddSurveyFieldValue</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddSurveyFieldValue</servlet-name>
+        <url-pattern>/AddSurveyFieldValue</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SubmitSurvey</servlet-name>
+        <servlet-class>SubmitSurvey</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SubmitSurvey</servlet-name>
+        <url-pattern>/SubmitSurvey</url-pattern>
+    </servlet-mapping>
+        
+    
 </web-app>

@@ -2,6 +2,24 @@
 <%@ page import = "javax.servlet.http.*,javax.servlet.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix = "c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix = "sql"%>
+
+<%
+    String driver = "com.mysql.jdbc.Driver";
+    String connectionUrl = "jdbc:mysql://localhost:3306/";
+    String database = "demoproj";
+    String userid = "root";
+    String password = "root";
+    try {
+        Class.forName(driver);
+    } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+    }
+
+    Connection connection = null;
+    Statement statement = null;
+    ResultSet resultSet = null;
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,10 +29,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Wilio Survey, Quotation, Review and Register form Wizard by Ansonika.">
     <meta name="author" content="Ansonika">
-    <title>Wilio | Survey, Quotation, Review and Register form Wizard</title>
+    <title>Values | Makerere University</title>
 
     <!-- Favicons-->
-    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="img/makerere.png" type="image/x-icon">
     <link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
     <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
     <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="img/apple-touch-icon-114x114-precomposed.png">
@@ -35,10 +53,13 @@
 	<!-- MODERNIZR MENU -->
 	<script src="js/modernizr.js"></script>
 
+    <link rel="stylesheet" type="text/css" href="font-awesome/4.7.0/css/font-awesome.min.css"/>
+
 </head>
 
 <body>
-	
+
+    
 	<div id="preloader">
 		<div data-loader="circle-side"></div>
 	</div><!-- /Preload -->
@@ -62,8 +83,8 @@
 	
 	<div class="container-fluid full-height">
 		<div class="row row-height">
-            
-             <!--===============LEFT CONTENT=================-->
+
+            <!--===============LEFT CONTENT=================-->
                 <div class="col-lg-6 content-left">
                     <div class="content-left-wrapper">
                         <a href="index.html" id="logo"><img src="img/makerere.png" alt="" width="49" height="35"></a>
@@ -78,7 +99,7 @@
                     
                         <div>
                             <figure><img src="img/makerere.png" alt="" class="img-fluid"></figure>
-                            <h2>Add Survey Fields</h2>
+                            <h2>Survey Field Values</h2>
                             <p>Welcome to Makerere University Online Survey Creation Tool.</p>
                             <a href="./" class="btn_1 rounded">Return Home</a>
                             <a href="#start" class="btn_1 rounded mobile_btn">Start Now!</a>
@@ -89,57 +110,71 @@
                 </div>
             <!--============END OF LEFT CONTENT=============-->
 
-            <!--================RIGHT CONTENT==============-->
-			<div class="col-lg-6 content-right" id="start">
-				<div id="wizard_container">
-					<div id="top-wizard">
-							<div id="progressbar"></div>
-						</div>
-						<!-- /top-wizard -->
-						<form method="POST" action="./AddSurveyField">
-							<input id="website" name="website" type="text" value="">
-                            <input type = "hidden" name="survey_id" value = "<%= request.getParameter("id")%>">
-                            <!-- Leave for security protection, read docs for details -->
-							<div id="middle-wizard">
-								<div class="submit step">
-									<h3 class="main_question">Add Survey Field</h3>
-									<div class="form-group">
-										<input type="text" name="field_name" class="form-control required" placeholder="Field Name">
-									</div>
-									<div class="form-group">
-										<div class="styled-select clearfix">
-											<select class="wide required" name="field_type">
-												<option value="">Field Type</option>
-												<option value="Star Rating">Star Rating</option>
-												<option value="Radio Button">Radio Button</option>
-												<option value="CheckBox">Checkbox</option>
-												<option value="Text Box">Text Box</option>
-												<option value="Comment Box">Comment Box</option>                             
-											</select>
-										</div>
-									</div>
-									<div class="form-group">
-										<input type="maximum" name="maximum" class="form-control required" placeholder="Maximum" value="Maximum">
-									</div>
-									<div class="form-group">
-										<input type="minimum" name="minimum" class="form-control required" placeholder="Minimum" value="null">
-									</div>
-									<div class="form-group ">
-										<textarea name="field_description" class="form-control review_message required" placeholder="Survey Topic and a brief summary" onkeyup="getVals(this, 'review_message');"></textarea>
-									</div>
+
+            <!--============RIGHT CONTENT=============-->
+            
+            <div class="col-lg-6 content-right" style="padding:10px;"id="start">
+                    
+                    <% 
+                        if(request.getParameter("survey_field_id") != null){ 
+                    %>
+                            <a href="./add_field_value.jsp?survey_field_id=<%=request.getParameter("survey_field_id")%>" class="btn btn-primary pull-right">Add Field Value</a> 
+                   <% } else if(session.getAttribute("survey_field_id") != null){ %>
+                            <a href="./add_field_value.jsp?survey_field_id=<%=session.getAttribute("survey_field_id")%>" class="btn btn-primary pull-right">Add Field Value</a> 
+                   <% } %>
+                                                   
+                    
+                    <div class="row">
+                        <div class="col-m ">
+                            <div class="tile">
+                                <div class="tile-body">
+                                    <table class="table table-hover table-bordered" id="sampleTable">
+                                        <thead>
+                                        <tr>
+                                            <th>Field Value>
+                                            <th style="width:100px; min-width:100px;" class="text-center text-danger"><i class="fa fa-bolt">Action</i></th>
+                                        </tr>
+                                        </thead>
                                         
-								</div>
-							</div>
-							<!-- /middle-wizard -->
-							<div id="bottom-wizard">
-								<button type="button" name="backward" class="backward">Prev</button>
-								<button type="button" name="forward" class="forward">Next</button>
-								<button type="submit" name="process" class="submit">Submit</button>
-							</div>
-							<!-- /bottom-wizard -->
-						</form>
-					</div>
-					<!-- /Wizard container -->
+                                        <tbody>
+
+                                            <%
+
+                                                try{ 
+                                                    connection = DriverManager.getConnection(connectionUrl+database, userid , password);
+                                                    statement=connection.createStatement();
+                                                    String sql ="select * from survey_field_attributes where survey_field_id = ";
+                                                    if(request.getParameter("survey_field_id") != null)
+                                                        sql = sql + request.getParameter("survey_field_id");
+                                                    else if(session.getAttribute("survey_field_id") != null){
+                                                        sql = sql + session.getAttribute("survey_field_id");
+                                                    }
+                                                    resultSet = statement.executeQuery(sql);
+
+                                                    while(resultSet.next()){
+                                            %>
+                                            <tr>
+                                                <td> <%=resultSet.getString("field_attribute_value") %></td>
+                                                <td class="text-center">
+                                                    <div class="btn-group" role="group" aria-label="Second group">
+                                                        <a href="./add_survey_fields.jsp?id =<%=resultSet.getString("id") %>" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <%
+                                                }
+                                                connection.close();
+                                                } catch (Exception e) {
+                                                e.printStackTrace();
+                                                }
+                                            %>
+                                        </tbody>
+                                        
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             </div>
             <!--============END OF RIGHT CONTENT===============-->
 		

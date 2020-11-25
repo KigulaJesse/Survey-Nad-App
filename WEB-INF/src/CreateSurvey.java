@@ -52,8 +52,9 @@ public class CreateSurvey extends HttpServlet{
             con.close();
 
             //Get a Writer Pointer
-            
-            response.sendRedirect("/Survey/add_survey_fields.jsp");
+
+             
+            response.sendRedirect("/Survey/survey_fields.jsp");
 
        }
        catch (Exception e){

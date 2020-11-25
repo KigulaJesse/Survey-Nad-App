@@ -60,74 +60,74 @@
 		<div class="row row-height">
 
             <!--===============LEFT CONTENT=================-->
-			<div class="col-lg-6 content-left">
-				<div class="content-left-wrapper">
-					<a href="index.html" id="logo"><img src="img/makerere.png" alt="" width="49" height="35"></a>
-					<div id="social">
-						<ul>
-							<li><a href="#0"><i class="icon-facebook"></i></a></li>
-							<li><a href="#0"><i class="icon-twitter"></i></a></li>
-							<li><a href="#0"><i class="icon-google"></i></a></li>
-							<li><a href="#0"><i class="icon-linkedin"></i></a></li>
-						</ul>
-					</div>
-				
-					<div>
-						<figure><img src="img/makerere.png" alt="" class="img-fluid"></figure>
-						<h2>Create A Survey</h2>
-						<p>Welcome to Makerere University Online Survey Creation Tool.</p>
-						<a href="./" class="btn_1 rounded">Return Home</a>
-						<a href="#start" class="btn_1 rounded mobile_btn">Start Now!</a>
-					</div>
-					<div class="copy"> © 2020 Nad</div>
-				</div>
-				
-            </div>
+                <div class="col-lg-6 content-left">
+                    <div class="content-left-wrapper">
+                        <a href="index.html" id="logo"><img src="img/makerere.png" alt="" width="49" height="35"></a>
+                        <div id="social">
+                            <ul>
+                                <li><a href="#0"><i class="icon-facebook"></i></a></li>
+                                <li><a href="#0"><i class="icon-twitter"></i></a></li>
+                                <li><a href="#0"><i class="icon-google"></i></a></li>
+                                <li><a href="#0"><i class="icon-linkedin"></i></a></li>
+                            </ul>
+                        </div>
+                    
+                        <div>
+                            <figure><img src="img/makerere.png" alt="" class="img-fluid"></figure>
+                            <h2>Create A Survey</h2>
+                            <p>Welcome to Makerere University Online Survey Creation Tool.</p>
+                            <a href="./" class="btn_1 rounded">Return Home</a>
+                            <a href="#start" class="btn_1 rounded mobile_btn">Start Now!</a>
+                        </div>
+                        <div class="copy"> © 2020 Nad</div>
+                    </div>
+                    
+                </div>
             <!--============END OF LEFT CONTENT=============-->
 
             <!--================RIGHT CONTENT==============-->
-			<div class="col-lg-6 content-right" id="start">
-				<div id="wizard_container">
-					<div id="top-wizard">
-							<div id="progressbar"></div>
-						</div>
-						<form method="POST" action="./CreateSurvey">
-							<input id="website" name="website" type="text" value="">
-							<div id="middle-wizard">
-								<div class="submit step">
-									<h3 class="main_question"><strong>1/1</strong>Please fill out details to create survey</h3>
-									<div class="form-group">
-										<input type="text" name="survey_name" class="form-control required" placeholder="Survey Name">
-									</div>
-									<div class="form-group">
-										<div class="styled-select clearfix">
-											<select class="wide required" name="populus">
-                                                <option value="">Populus</option>
-                                                <option value="All">All</option>	
-												<option value="Livingstone">Livingstone</option>
-												<option value="Nsibirwa">Nsibirwa</option>
-												<option value="COCIS">COCIS</option>
-												<option value="COBAMS">COBAMS</option>                             
-											</select>
-										</div>
+                <div class="col-lg-6 content-right" id="start">
+                    <div id="wizard_container">
+                        <div id="top-wizard">
+                                <div id="progressbar"></div>
+                            </div>
+                            <form method="POST" action="./CreateSurvey">
+                                <input id="website" name="website" type="text" value="">
+                                <div id="middle-wizard">
+                                    <div class="submit step">
+                                        <h3 class="main_question"><strong>1/1</strong>Please fill out details to create survey</h3>
+                                        <div class="form-group">
+                                            <input type="text" name="survey_name" class="form-control required" placeholder="Survey Name">
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="styled-select clearfix">
+                                                <select class="wide required" name="populus">
+                                                    <option value="">Populus</option>
+                                                    <option value="All">All</option>	
+                                                    <option value="Livingstone">Livingstone</option>
+                                                    <option value="Nsibirwa">Nsibirwa</option>
+                                                    <option value="COCIS">COCIS</option>
+                                                    <option value="COBAMS">COBAMS</option>                             
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <textarea name="survey_topic" class="form-control review_message required" placeholder="Survey Topic and a brief summary" onkeyup="getVals(this, 'review_message');"></textarea>
+                                        </div>
+                                        
                                     </div>
-									<div class="form-group ">
-										<textarea name="survey_topic" class="form-control review_message required" placeholder="Survey Topic and a brief summary" onkeyup="getVals(this, 'review_message');"></textarea>
-									</div>
-									
-								</div>
-							</div>
-							<!-- /middle-wizard -->
-							<div id="bottom-wizard">
-								<button type="button" name="backward" class="backward">Prev</button>
-								<button type="button" name="forward" class="forward">Next</button>
-								<button type="submit" name="process" class="submit">Submit</button>
-							</div>
-							<!-- /bottom-wizard -->
-						</form>
-					</div>
-					<!-- /Wizard container -->
-            </div>
+                                </div>
+                                <!-- /middle-wizard -->
+                                <div id="bottom-wizard">
+                                    <button type="button" name="backward" class="backward">Prev</button>
+                                    <button type="button" name="forward" class="forward">Next</button>
+                                    <button type="submit" name="process" class="submit">Submit</button>
+                                </div>
+                                <!-- /bottom-wizard -->
+                            </form>
+                        </div>
+                        <!-- /Wizard container -->
+                </div>
             <!--============END OF RIGHT CONTENT===============-->
 		
 		</div>

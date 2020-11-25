@@ -2,6 +2,24 @@
 <%@ page import = "javax.servlet.http.*,javax.servlet.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix = "c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix = "sql"%>
+
+<%
+    String driver = "com.mysql.jdbc.Driver";
+    String connectionUrl = "jdbc:mysql://localhost:3306/";
+    String database = "demoproj";
+    String userid = "root";
+    String password = "root";
+    try {
+        Class.forName(driver);
+    } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+    }
+
+    Connection connection = null;
+    Statement statement = null;
+    ResultSet resultSet = null;
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -63,86 +81,85 @@
 	<div class="container-fluid full-height">
 		<div class="row row-height">
             
-             <!--===============LEFT CONTENT=================-->
-                <div class="col-lg-6 content-left">
-                    <div class="content-left-wrapper">
-                        <a href="index.html" id="logo"><img src="img/makerere.png" alt="" width="49" height="35"></a>
-                        <div id="social">
-                            <ul>
-                                <li><a href="#0"><i class="icon-facebook"></i></a></li>
-                                <li><a href="#0"><i class="icon-twitter"></i></a></li>
-                                <li><a href="#0"><i class="icon-google"></i></a></li>
-                                <li><a href="#0"><i class="icon-linkedin"></i></a></li>
-                            </ul>
-                        </div>
-                    
-                        <div>
-                            <figure><img src="img/makerere.png" alt="" class="img-fluid"></figure>
-                            <h2>Add Survey Fields</h2>
-                            <p>Welcome to Makerere University Online Survey Creation Tool.</p>
-                            <a href="./" class="btn_1 rounded">Return Home</a>
-                            <a href="#start" class="btn_1 rounded mobile_btn">Start Now!</a>
-                        </div>
-                        <div class="copy"> © 2020 Nad</div>
-                    </div>
-                    
-                </div>
+            <!--===============LEFT CONTENT=================-->
+			<div class="col-lg-6 content-left">
+				<div class="content-left-wrapper">
+					<a href="index.html" id="logo"><img src="img/logo.png" alt="" width="49" height="35"></a>
+					<div id="social">
+						<ul>
+							<li><a href="#0"><i class="icon-facebook"></i></a></li>
+							<li><a href="#0"><i class="icon-twitter"></i></a></li>
+							<li><a href="#0"><i class="icon-google"></i></a></li>
+							<li><a href="#0"><i class="icon-linkedin"></i></a></li>
+						</ul>
+					</div>
+				
+					<div>
+						<figure><img src="img/makerere.png" alt="" class="img-fluid"></figure>
+						<h2>Take A Survey</h2>
+						<p>Tation argumentum et usu, dicit viderer evertitur te has. Eu dictas concludaturque usu, facete detracto patrioque an per, lucilius pertinacia eu vel. Adhuc invidunt duo ex. Eu tantas dolorum ullamcorper qui.</p>
+						<a href="#0" class="btn_1 rounded">Home</a>
+						<a href="#start" class="btn_1 rounded mobile_btn">Start Now!</a>
+					</div>
+					<div class="copy">© 2020 Nad</div>
+				</div>
+				
+            </div>
             <!--============END OF LEFT CONTENT=============-->
 
-            <!--================RIGHT CONTENT==============-->
-			<div class="col-lg-6 content-right" id="start">
-				<div id="wizard_container">
-					<div id="top-wizard">
-							<div id="progressbar"></div>
-						</div>
-						<!-- /top-wizard -->
-						<form method="POST" action="./AddSurveyField">
-							<input id="website" name="website" type="text" value="">
-                            <input type = "hidden" name="survey_id" value = "<%= request.getParameter("id")%>">
-                            <!-- Leave for security protection, read docs for details -->
-							<div id="middle-wizard">
-								<div class="submit step">
-									<h3 class="main_question">Add Survey Field</h3>
-									<div class="form-group">
-										<input type="text" name="field_name" class="form-control required" placeholder="Field Name">
-									</div>
-									<div class="form-group">
-										<div class="styled-select clearfix">
-											<select class="wide required" name="field_type">
-												<option value="">Field Type</option>
-												<option value="Star Rating">Star Rating</option>
-												<option value="Radio Button">Radio Button</option>
-												<option value="CheckBox">Checkbox</option>
-												<option value="Text Box">Text Box</option>
-												<option value="Comment Box">Comment Box</option>                             
-											</select>
-										</div>
-									</div>
-									<div class="form-group">
-										<input type="maximum" name="maximum" class="form-control required" placeholder="Maximum" value="Maximum">
-									</div>
-									<div class="form-group">
-										<input type="minimum" name="minimum" class="form-control required" placeholder="Minimum" value="null">
-									</div>
-									<div class="form-group ">
-										<textarea name="field_description" class="form-control review_message required" placeholder="Survey Topic and a brief summary" onkeyup="getVals(this, 'review_message');"></textarea>
-									</div>
+			<!--============RIGHT CONTENT=============-->
+            
+            <div class="col-lg-6 content-right" style="padding:10px;"id="start">
+                     
+                    <div class="row">
+                        <div class="col-m ">
+                            <div class="tile">
+                                <div class="tile-body">
+                                    <table class="table table-hover table-bordered" id="sampleTable">
+                                        <thead>
+                                        <tr>
+                                            <th>Survey </th>
+                                            <th class = "d-none d-sm-table-cell">Populus </th>
+                                            <th style="width:100px; min-width:100px;" class="text-center text-danger"><i class="fa fa-bolt">Action</i></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            <%
+                                                try{ 
+                                                    connection = DriverManager.getConnection(connectionUrl+database, userid , password);
+                                                    statement=connection.createStatement();
+                                                    String sql ="select * from surveys";
+                                                    resultSet = statement.executeQuery(sql);
+
+                                                    while(resultSet.next()){
+                                            %>
+                                            <tr>
+                                                <td> <%=resultSet.getString("survey_name") %></td>
+                                                <td class = "d-none d-sm-table-cell"><%=resultSet.getString("populus") %></td>
+                                                <td class="text-center">
+                                                    <div class="btn-group" role="group" aria-label="Second group">
+                                                        <a href="./take_survey.jsp?survey_id=<%=resultSet.getString("id") %>" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                                <%
+                                                    }
+                                                    connection.close();
+                                                    } catch (Exception e) {
+                                                e.printStackTrace();
+                                                }
+                                            %>
+                                        </tbody>
                                         
-								</div>
-							</div>
-							<!-- /middle-wizard -->
-							<div id="bottom-wizard">
-								<button type="button" name="backward" class="backward">Prev</button>
-								<button type="button" name="forward" class="forward">Next</button>
-								<button type="submit" name="process" class="submit">Submit</button>
-							</div>
-							<!-- /bottom-wizard -->
-						</form>
-					</div>
-					<!-- /Wizard container -->
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             </div>
             <!--============END OF RIGHT CONTENT===============-->
 		
+            
 		</div>
 	</div>
 	
