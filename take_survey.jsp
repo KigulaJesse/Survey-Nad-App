@@ -106,6 +106,7 @@
         <div class="container-fluid full-height">
             <div class="row row-height">
                 <!--=================LEFT CONTENT============-->
+                
                     <div class="col-lg-6 content-left">
                         <div class="content-left-wrapper">
                             <a href="index.html" id="logo"><img src="img/logo.png" alt="" width="49" height="35"></a>
@@ -169,7 +170,7 @@
                                                                 %>
                                                                         <div class="form-group">
                                                                             <label class="container_radio version_2"><%= resultSet3.getString("field_attribute_value")%>
-                                                                                <input type="radio" name="<%= resultSet2.getString("id")%>" value="<%= resultSet3.getString("field_attribute_value")%>" class="required" onchange="getVals(this, 'question_<%= count%>');">
+                                                                                <input type="radio" name="<%= resultSet2.getString("id")%>" value="<%= resultSet3.getString("id")%>" class="required" onchange="getVals(this, 'question_<%= count%>');">
                                                                                 <span class="checkmark"></span>
                                                                             </label>
                                                                         </div>
@@ -195,7 +196,7 @@
                             
                                                                     <div class="form-group">
                                                                         <label class="container_check version_2"><%= resultSet3.getString("field_attribute_value")%>
-                                                                            <input type="checkbox" name="<%= resultSet2.getString("id")%>[]" value="<%= resultSet3.getString("field_attribute_value")%>" class="required" onchange="getVals(this, 'question_<%= count%>');">
+                                                                            <input type="checkbox" name="<%= resultSet2.getString("id")%>[]" value="<%= resultSet3.getString("id")%>" class="required" onchange="getVals(this, 'question_<%= count%>');">
                                                                             <span class="checkmark"></span>
                                                                         </label>
                                                                     </div>
@@ -255,23 +256,22 @@
 
                                         <!--========SUBMIT STEP=======-->
                                             <div class="submit step">
-                                                <h3 class="main_question"><strong><%= count%>/<%=count%></strong>Summary</h3>
-                                                <div class="summary">
-                                                    <ul>
-                                                            <li><strong>1</strong>
-                                                                <h5>How do rate your overall satisfaction about the service provided?</h5>
-                                                                <p id="question_1"></p>
-                                                            </li>
-                                                            <li><strong>2</strong>
-                                                                <h5>How did you hear about our company?</h5>
-                                                                <p id="question_2"></p>
-                                                            </li>
-                                                            <li><strong>3</strong>
-                                                                <h5>Do you think to suggest our company to a friend or parent?</h5>
-                                                                <p id="question_3"></p>
-                                                                <p id="additional_message"></p>
-                                                            </li>
-                                                    </ul>
+                                                <h3 class="main_question"><strong><%= count%>/<%=count%></strong>Are You In Favour Of This Decision</h3>
+                                                <div class="form-group">
+                                                    <label class="container_radio version_2">Yes
+                                                        <input type="radio" name="vote" value="Yes" class="required">
+                                                        <span class="checkmark"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="container_radio version_2">No
+                                                        <input type="radio" name="vote" value="No" class="required">
+                                                        <span class="checkmark"></span>
+                                                    </label>
+                                                </div>
+                                                <h3 class="main_question">Comments</h3>
+                                                <div class="form-group ">
+                                                    <textarea name="comment" class="form-control review_message required" placeholder="Your Thoughts On This Decision By The University"></textarea>
                                                 </div>
                                             </div>
                                         <!--=====END OF SUBMIT STEP===-->
@@ -292,7 +292,6 @@
                     
                 <!--===========END OF RIGHT CONTENT=========-->
             </div>
-            
         </div>
     <!--=========END OF BODY CONTENT===================-->
 

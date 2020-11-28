@@ -107,9 +107,64 @@
                 <!--============END OF LEFT CONTENT=============-->
                 <!--================RIGHT CONTENT=================-->
                     <div class="col-lg-6" style="padding:10px;"id="start">
+                            <h4 style="padding:4em 1.5em 0.7em 5.3em;">Survey Results</h4>
+                            <div class="row" style="padding:0em 1.5em 1.5em 10em;">
+                                <div class="col-m ">
+                                    <div class="tile">
+                                        <div class="tile-body">
+                                            <table class="table table-hover table-bordered" id="sampleTable">
+                                                <thead>
+                                                <tr>
+                                                    <th>Survey Take Id</th>
+                                                    <th style="width:100px; min-width:100px;" class="text-center text-danger"><i class="fa fa-bolt">Action</i></th>
+                                                </tr>
+                                                </thead>
+                                                
+                                                <tbody>
+                                                    <%
+                                                        try{ 
+                                                            connection = DriverManager.getConnection(connectionUrl+database, userid , password);
+                                                            statement=connection.createStatement();
+                                                            String sql ="select * from take_surveys where survey_id = ";
+                                                            String url = null;
+                                                            if(request.getParameter("name") != null){
+                                                                sql = sql + request.getParameter("name");
+                                                                url = request.getParameter("name");
+                                                            }
+                                                            else if(session.getAttribute("name") != null){
+                                                                sql = sql + session.getAttribute("name");
+                                                                url = session.getAttribute("name").toString();
+                                                            }
+                                                            resultSet = statement.executeQuery(sql);
+
+                                                            while(resultSet.next()){
+                                                    %>
+                                                    <tr>
+                                                        <td> <%=resultSet.getString("id") %></td>
+                                                        <td class="text-center">
+                                                            <div class="btn-group" role="group" aria-label="Second group">
+                                                                <a href="./taken_survey.jsp?taken_survey_id=<%=resultSet.getString("id")%>&amp;survey_id=<%=url%>" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <%
+                                                            }
+                                                            connection.close();
+                                                        } catch (Exception e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                    %>
+                                                </tbody>
+                                                
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             
-                            <div class = "row" style="padding:13em 0 1.5em 28em;"></br>
-                                <a href="./all_survey.jsp" style="position:relative; margin-right: 10px;" class="btn btn-danger">Back</a>
+                            <div class = "row" style="padding:0 0 1.5em 10em;"></br>
+                                <h4 >Survey Fields Table</h4>
+                                <a href="./all_survey.jsp" style="position:relative; margin-left:20px; margin-right: 10px;" class="btn btn-danger">Back</a>
                                 <% 
                                     if(request.getParameter("name") != null){ 
                                 %>
@@ -118,9 +173,9 @@
                                             <a href="./add_survey_fields.jsp?id=<%=session.getAttribute("name")%>" class="btn btn-primary pull-right">New Field</a> 
                                 <% } %>
                             </div>
-                                                                    
-                            
+                                                            
                             <div class="row" style="padding:0 1.5em 1.5em 10em;">
+                                
                                 <div class="col-m ">
                                     <div class="tile">
                                         <div class="tile-body">
@@ -177,6 +232,7 @@
                                     </div>
                                 </div>
                             </div>
+
                     </div>
                 <!--============END OF RIGHT CONTENT===============-->
             </div>
