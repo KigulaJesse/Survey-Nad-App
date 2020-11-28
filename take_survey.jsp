@@ -121,7 +121,7 @@
                                 <figure><img src="img/info_graphic_1.svg" alt="" class="img-fluid"></figure>
                                 <h2><%=resultSet.getString("survey_name") %> Survey</h2>
                                 <p><%=resultSet.getString("survey_topic") %></p>
-                                <a href="#0" class="btn_1 rounded">Home</a>
+                                <a href="./" class="btn_1 rounded">Home</a>
                             </div>
                             <div class="copy">© 2018 Wilio</div>
                         </div>
@@ -146,6 +146,7 @@
                                 </div>
                                 <form method="POST" action="./SubmitSurvey">
                                     <input id="website" name="website" type="text" value="">
+                                    <input type="hidden" name="survey_id" value="<%= request.getParameter("survey_id")%>">
                                     <div id="middle-wizard">
 
                                         <!--=====LOOP THROUGH SURVEY FIELS=========-->
@@ -168,7 +169,7 @@
                                                                 %>
                                                                         <div class="form-group">
                                                                             <label class="container_radio version_2"><%= resultSet3.getString("field_attribute_value")%>
-                                                                                <input type="radio" name="question_<%= count%>" value="<%= resultSet3.getString("id")%>" class="required" onchange="getVals(this, 'question_<%= count%>');">
+                                                                                <input type="radio" name="<%= resultSet2.getString("id")%>" value="<%= resultSet3.getString("field_attribute_value")%>" class="required" onchange="getVals(this, 'question_<%= count%>');">
                                                                                 <span class="checkmark"></span>
                                                                             </label>
                                                                         </div>
@@ -184,7 +185,7 @@
                                                     
                                                     <!--==========CHECK BOXES==========-->
                                                         <% 
-                                                            if(resultSet2.getString("field_type").equals("Checkbox")){
+                                                            if(resultSet2.getString("field_type").equals("CheckBox")){
                                                         %>
                                                             <div class="step">
                                                                 <h3 class="main_question"><strong><%= count%>/<%=total_survey_fields + 1%></strong><%= resultSet2.getString("field_description")%></h3>
@@ -193,8 +194,8 @@
                                                                 %>
                             
                                                                     <div class="form-group">
-                                                                        <label class="container_check version_2">Google Search Engine
-                                                                            <input type="checkbox" name="question_<%= count%>[]" value="Google Search Engine" class="required" onchange="getVals(this, 'question_<%= count%>');">
+                                                                        <label class="container_check version_2"><%= resultSet3.getString("field_attribute_value")%>
+                                                                            <input type="checkbox" name="<%= resultSet2.getString("id")%>[]" value="<%= resultSet3.getString("field_attribute_value")%>" class="required" onchange="getVals(this, 'question_<%= count%>');">
                                                                             <span class="checkmark"></span>
                                                                         </label>
                                                                     </div>
@@ -222,15 +223,15 @@
                                                                 <div class="form-group rating_wp clearfix">
                                                                     <label class="rating_type"><%= resultSet3.getString("field_attribute_value")%></label>
                                                                     <span class="rating">
-                                                                        <input type="radio" class="required rating-input" id="rating-input-<%=ratecount%>-5" name="rating_input_<%=ratecount%>" value="5 Stars" onchange="getVals(this, 'rating_input_<%= count%>');">
+                                                                        <input type="radio" class="required rating-input" id="rating-input-<%=ratecount%>-5" name="<%= resultSet2.getString("id")%>_<%= resultSet3.getString("id")%>" value="5 Stars" onchange="getVals(this, 'rating_input_<%= count%>');">
                                                                         <label for="rating-input-<%=ratecount%>-5" class="rating-star"></label>
-                                                                        <input type="radio" class="required rating-input" id="rating-input-<%=ratecount%>-4" name="rating_input_<%=ratecount%>" value="4 Stars" onchange="getVals(this, 'rating_input_1');">
+                                                                        <input type="radio" class="required rating-input" id="rating-input-<%=ratecount%>-4" name="<%= resultSet2.getString("id")%>_<%= resultSet3.getString("id")%>" value="4 Stars" onchange="getVals(this, 'rating_input_1');">
                                                                         <label for="rating-input-<%=ratecount%>-4" class="rating-star"></label>
-                                                                        <input type="radio" class="required rating-input" id="rating-input-<%=ratecount%>-3" name="rating_input_<%=ratecount%>" value="3 Stars" onchange="getVals(this, 'rating_input_1');">
+                                                                        <input type="radio" class="required rating-input" id="rating-input-<%=ratecount%>-3" name="<%= resultSet2.getString("id")%>_<%= resultSet3.getString("id")%>" value="3 Stars" onchange="getVals(this, 'rating_input_1');">
                                                                         <label for="rating-input-<%=ratecount%>-3" class="rating-star"></label>
-                                                                        <input type="radio" class="required rating-input" id="rating-input-<%=ratecount%>-2" name="rating_input_<%=ratecount%>" value="2 Stars" onchange="getVals(this, 'rating_input_1');">
+                                                                        <input type="radio" class="required rating-input" id="rating-input-<%=ratecount%>-2" name="<%= resultSet2.getString("id")%>_<%= resultSet3.getString("id")%>" value="2 Stars" onchange="getVals(this, 'rating_input_1');">
                                                                         <label for="rating-input-<%=ratecount%>-2" class="rating-star"></label>
-                                                                        <input type="radio" class="required rating-input" id="rating-input-<%=ratecount%>-1" name="rating_input_<%=ratecount%>" value="1 Star" onchange="getVals(this, 'rating_input_1');">
+                                                                        <input type="radio" class="required rating-input" id="rating-input-<%=ratecount%>-1" name="<%= resultSet2.getString("id")%>_<%=resultSet3.getString("id")%>" value="1 Star" onchange="getVals(this, 'rating_input_1');">
                                                                         <label for="rating-input-<%=ratecount%>-1" class="rating-star"></label>
                                                                     </span>
                                                                 </div>

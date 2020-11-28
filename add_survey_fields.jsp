@@ -102,7 +102,10 @@
                             <!-- Leave for security protection, read docs for details -->
 							<div id="middle-wizard">
 								<div class="submit step">
-									<h3 class="main_question">Add Survey Field</h3>
+									<h3 class="main_question">
+                                        Add Survey Field
+                                        <a href="./survey_fields.jsp?name=<%=request.getParameter("id") %>" style="position:relative; margin-left: 180px;" class="btn btn-danger">Back</a>
+                                    </h3>
 									<div class="form-group">
 										<input type="text" name="field_name" class="form-control required" placeholder="Field Name">
 									</div>

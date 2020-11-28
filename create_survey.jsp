@@ -90,43 +90,47 @@
                     <div id="wizard_container">
                         <div id="top-wizard">
                                 <div id="progressbar"></div>
-                            </div>
-                            <form method="POST" action="./CreateSurvey">
-                                <input id="website" name="website" type="text" value="">
-                                <div id="middle-wizard">
-                                    <div class="submit step">
-                                        <h3 class="main_question"><strong>1/1</strong>Please fill out details to create survey</h3>
-                                        <div class="form-group">
-                                            <input type="text" name="survey_name" class="form-control required" placeholder="Survey Name">
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="styled-select clearfix">
-                                                <select class="wide required" name="populus">
-                                                    <option value="">Populus</option>
-                                                    <option value="All">All</option>	
-                                                    <option value="Livingstone">Livingstone</option>
-                                                    <option value="Nsibirwa">Nsibirwa</option>
-                                                    <option value="COCIS">COCIS</option>
-                                                    <option value="COBAMS">COBAMS</option>                             
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group ">
-                                            <textarea name="survey_topic" class="form-control review_message required" placeholder="Survey Topic and a brief summary" onkeyup="getVals(this, 'review_message');"></textarea>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                                <!-- /middle-wizard -->
-                                <div id="bottom-wizard">
-                                    <button type="button" name="backward" class="backward">Prev</button>
-                                    <button type="button" name="forward" class="forward">Next</button>
-                                    <button type="submit" name="process" class="submit">Submit</button>
-                                </div>
-                                <!-- /bottom-wizard -->
-                            </form>
                         </div>
-                        <!-- /Wizard container -->
+                        <form method="POST" action="./CreateSurvey">
+                            <input id="website" name="website" type="text" value="">
+                            <div id="middle-wizard">
+                                <div class="submit step">
+                                    <h3 class="main_question">
+                                        <strong>1/1 <a href="./all_survey.jsp" style="position:relative; margin-left: 300px;" class="btn btn-danger">Back</a></strong>
+                                        Please fill out details to create survey
+                                    </h3>
+                                    
+                                    <div class="form-group">
+                                        <input type="text" name="survey_name" class="form-control required" placeholder="Survey Name">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="styled-select clearfix">
+                                            <select class="wide required" name="populus">
+                                                <option value="">Populus</option>
+                                                <option value="All">All</option>	
+                                                <option value="Livingstone">Livingstone</option>
+                                                <option value="Nsibirwa">Nsibirwa</option>
+                                                <option value="COCIS">COCIS</option>
+                                                <option value="COBAMS">COBAMS</option>                             
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group ">
+                                        <textarea name="survey_topic" class="form-control review_message required" placeholder="Survey Topic and a brief summary" onkeyup="getVals(this, 'review_message');"></textarea>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <!-- /middle-wizard -->
+                            <div id="bottom-wizard">
+                                <button type="button" name="backward" class="backward">Prev</button>
+                                <button type="button" name="forward" class="forward">Next</button>
+                                <button type="submit" name="process" class="submit">Submit</button>
+                            </div>
+                            <!-- /bottom-wizard -->
+                        </form>
+                    </div>
+                    <!-- /Wizard container -->
                 </div>
             <!--============END OF RIGHT CONTENT===============-->
 		

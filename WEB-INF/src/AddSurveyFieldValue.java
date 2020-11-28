@@ -14,19 +14,21 @@ public class AddSurveyFieldValue extends HttpServlet{
             String dbPassword = "root";
 
             Class.forName(dbDriver);
+            
             Connection con = DriverManager.getConnection(dbURL + dbName, dbUserName, dbPassword);
 
-            
             PreparedStatement survey_field = con.prepareStatement("insert into survey_field_attributes (survey_field_id, field_attribute_value) values(?, ?)");
 
+            int id = Integer.valueOf(request.getParameter("survey_field_id"));
             
-            survey_field.setInt(1, Integer.valueOf(request.getParameter("survey_field_id")));
+            survey_field.setInt(1, id);
 
             survey_field.setString(2, request.getParameter("survey_field_value"));
 
             survey_field.executeUpdate(); 
   
             // Close all the connections 
+
             survey_field.close(); 
             con.close(); 
 
@@ -34,11 +36,8 @@ public class AddSurveyFieldValue extends HttpServlet{
             HttpSession session = request.getSession(true);
             //save message in session
             session.setAttribute("survey_field_id", request.getParameter("survey_field_id"));
+            session.setAttribute("survey", request.getParameter("survey"));
             response.sendRedirect("./survey_field_values.jsp");
-
-            
-           
-
         }
         catch(Exception e){
                 e.printStackTrace();

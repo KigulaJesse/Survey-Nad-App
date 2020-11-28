@@ -35,6 +35,7 @@ public class AddSurveyField extends HttpServlet{
             survey_field.executeUpdate(); 
   
             // Close all the connections 
+￼
             survey_field.close(); 
             con.close(); 
 

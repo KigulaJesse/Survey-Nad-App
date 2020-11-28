@@ -98,7 +98,7 @@
 						<figure><img src="img/makerere.png" alt="" class="img-fluid"></figure>
 						<h2>Take A Survey</h2>
 						<p>Tation argumentum et usu, dicit viderer evertitur te has. Eu dictas concludaturque usu, facete detracto patrioque an per, lucilius pertinacia eu vel. Adhuc invidunt duo ex. Eu tantas dolorum ullamcorper qui.</p>
-						<a href="#0" class="btn_1 rounded">Home</a>
+						<a href="./login.jsp" class="btn_1 rounded">Login</a>
 						<a href="#start" class="btn_1 rounded mobile_btn">Start Now!</a>
 					</div>
 					<div class="copy">© 2020 Nad</div>
