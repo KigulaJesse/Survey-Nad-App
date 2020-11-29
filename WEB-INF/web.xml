@@ -57,6 +57,14 @@
         <servlet-name>SubmitSurvey</servlet-name>
         <url-pattern>/SubmitSurvey</url-pattern>
     </servlet-mapping>
-        
-    
+
+    <servlet>
+        <servlet-name>CreateStudent</servlet-name>
+        <servlet-class>CreateStudent</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CreateStudent</servlet-name>
+        <url-pattern>/CreateStudent</url-pattern>
+    </servlet-mapping>
+     
 </web-app>

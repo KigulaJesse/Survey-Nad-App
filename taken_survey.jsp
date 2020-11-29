@@ -38,7 +38,7 @@
     connection = DriverManager.getConnection(connectionUrl+database, userid , password);
     statement=connection.createStatement();
     String sql ="select * from surveys where id = ";
-    sql = sql + "13";
+    sql = sql + request.getParameter("survey_id");
     resultSet = statement.executeQuery(sql);
     while(resultSet.next()){
         statement4 = connection.createStatement();
@@ -126,7 +126,7 @@
                         
                             <div class="col-lg-6 content-left">
                                 <div class="content-left-wrapper">
-                                    <a href="index.html" id="logo"><img src="img/logo.png" alt="" width="49" height="35"></a>
+                                    <a href="index.html" id="logo"><img src="img/makerere.png" alt="" width="49" height="35"></a>
                                     <div id="social">
                                         <ul>
                                             <li><a href="#0"><i class="icon-facebook"></i></a></li>
@@ -136,7 +136,7 @@
                                         </ul>
                                     </div>
                                     <div>
-                                        <figure><img src="img/info_graphic_1.svg" alt="" class="img-fluid"></figure>
+                                        <figure><img src="img/makerere.png" alt="" class="img-fluid"></figure>
                                         <h2><%=resultSet.getString("survey_name") %> Survey</h2>
                                         <p><%=resultSet.getString("survey_topic") %></p>
                                         <a href="./" class="btn_1 rounded">Home</a>
@@ -150,7 +150,7 @@
                             <% 
                                 statement2 = connection.createStatement();   
                                 String sql2 ="select * from survey_fields where survey_id = ";
-                                sql2 = sql2 + "13";
+                                sql2 = sql2 + request.getParameter("survey_id");
                                 resultSet2 = statement2.executeQuery(sql2);
                                 int count = 1;
                                 resultSet2.last();

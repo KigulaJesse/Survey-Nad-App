@@ -23,7 +23,7 @@ public class SubmitSurvey extends HttpServlet{
             PreparedStatement take_survey = con.prepareStatement("insert into take_surveys (student_id, survey_id, comment, vote) values(?, ?, ?, ?)",  Statement.RETURN_GENERATED_KEYS);
 
             //student id
-            take_survey.setInt(1, 2);
+            take_survey.setInt(1, Integer.valueOf(request.getParameter("student_id")));
 
             //survey_id
             take_survey.setInt(2, Integer.valueOf(request.getParameter("survey_id")));
@@ -38,21 +38,25 @@ public class SubmitSurvey extends HttpServlet{
             int i = take_survey.executeUpdate();
 
             PrintWriter out = response.getWriter(); 
-            out.println("<html><body>");
+            //out.println("<html><body>");
             ResultSet rs = take_survey.getGeneratedKeys();
+
+
             if(rs.next()){
                 int id = rs.getInt(1);
 
                 List<String> list = new ArrayList<String>();
                 Enumeration keys = request.getParameterNames();
-                while (keys.hasMoreElements() ){
+                while (keys.hasMoreElements()){
                     PreparedStatement take_survey2 = con.prepareStatement("insert into take_survey_fields (take_survey_id, survey_field_id) values(?, ?)",  Statement.RETURN_GENERATED_KEYS);
                     take_survey2.setInt(1, id);
                     String key = (String)keys.nextElement();
-                    if(key.equals("survey_id") || key.equals("website") || key.equals("process")){
+
+                    
+                    if(key.equals("survey_id") || key.equals("comment") || key.equals("vote") ||key.equals("website") || key.equals("process") || key.equals("student_id")){
                         continue;
                     }
-
+                    out.println(key);
                     if(key.indexOf('_') != -1 ){
                         String[] t = key.split("_",2);
                         //out.println(!list.contains(t[0]));
@@ -76,11 +80,12 @@ public class SubmitSurvey extends HttpServlet{
                         take_survey2.setInt(2, Integer.valueOf(key));
                         //out.println("<p>" + key + "</p>");
                     }
+
                     
                     if(inserted == 0){
-                        out.println("<p>Uninserted key: "+key+"</p>");
+                        //out.println("<p>Uninserted key: "+key+"</p>");
                         String[] t3 = key.split("_",2);
-                        out.println(t3[1]);
+                        //out.println(t3[1]);
                         String[] valueArray = request.getParameterValues(key);
                         for(int l = 0; l < valueArray.length; l++){
                             PreparedStatement take_survey3 = con.prepareStatement("insert into take_survey_field_values(survey_field_id, taken_survey_field_id, value) values(?, ?, ?)",  Statement.RETURN_GENERATED_KEYS);
@@ -91,6 +96,8 @@ public class SubmitSurvey extends HttpServlet{
                             int  k2 = take_survey3.executeUpdate();
                             take_survey3.close();
                         }
+
+                       // out.println("here");
                         
                     }
                     else if(inserted == 1){
@@ -99,7 +106,7 @@ public class SubmitSurvey extends HttpServlet{
                         if(rs2.next()){
                             id2 = rs2.getInt(1);
                             String[] t3 = key.split("_",2);
-                            out.println(t3[1]);
+                            //out.println(t3[1]);
                             String[] valueArray = request.getParameterValues(key);
                             for(int l = 0; l < valueArray.length; l++){
                                 PreparedStatement take_survey3 = con.prepareStatement("insert into take_survey_field_values(survey_field_id, taken_survey_field_id, value) values(?, ?, ?)",  Statement.RETURN_GENERATED_KEYS);
@@ -129,54 +136,18 @@ public class SubmitSurvey extends HttpServlet{
                             }
                         }
                     }
+                    
                     take_survey2.close();
+                    
                 }
             }
-                        
+                    
             
-            /*Enumeration keys = request.getParameterNames();
-                while (keys.hasMoreElements() ){
-                String key = (String)keys.nextElement();
-
-                out.println("<p>" + key +"<p>");
-
-                if(key.equals("survey_id") || key.equals("website") || key.equals("process")){
-                    continue;
-                }
-                out.println("<p>" + key +"<p>");
-                if(request.getParameterValues(key).length > 1){
-                    // If the same key has multiple values
-                    String[] valueArray = request.getParameterValues(key);
-                    for(int l = 0; l < valueArray.length; l++){
-                        //out.println("<p>" + valueArray[l] +"<p>");
-                    }
-                }
-                else{
-                    //To retrieve a single value
-                    String value = request.getParameter(key);
-                    if(key.indexOf('_') != 0){
-                        int l = key.indexOf('_');
-                        String[] t = key.split("_",2);
-                        //out.println("<p>");
-                        for(int j = 0; j<t.length; j++){
-                            //out.println(t[j]);
-                        }
-                        //out.println("</p>");
-                        //out.println("<p>" + key +": "+value +"</p>");
-                    }
-                    else{
-                        //out.println("<p>" + key +": "+value +"</p>");
-                    }
-                }
-            }*/
-            
-            out.println("</html></body>");
-
             //Close all connections
             take_survey.close();
             con.close();
-           
 
+            response.sendRedirect("/Survey/surveys.jsp");
         }
         catch(Exception e){
                 e.printStackTrace();

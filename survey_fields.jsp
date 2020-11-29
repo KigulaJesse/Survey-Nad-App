@@ -17,6 +17,7 @@
 
     Connection connection = null;
     Statement statement = null;
+    Statement statement3 = null;
     ResultSet resultSet = null;
 %>
 
@@ -81,6 +82,24 @@
         <div class="container-fluid full-height">
             <div class="row row-height">
                 <!--===============LEFT CONTENT=================-->
+                <%
+                        connection = DriverManager.getConnection(connectionUrl+database, userid , password);
+                        statement3=connection.createStatement();
+                        String sql3 ="select * from surveys where id = ";
+                        String url3 = null;
+                        if(request.getParameter("name") != null){
+                            sql3 = sql3 + request.getParameter("name");
+                            url3 = request.getParameter("name");
+                        }
+                        else if(session.getAttribute("name") != null){
+                            sql3 = sql3 + session.getAttribute("name");
+                            url3 = session.getAttribute("name").toString();
+                        }
+                        ResultSet resultSet3 = statement3.executeQuery(sql3);
+
+                        while(resultSet3.next()){
+                %>
+
                     <div class="col-lg-6 content-left">
                         <div class="content-left-wrapper">
                             <a href="index.html" id="logo"><img src="img/makerere.png" alt="" width="49" height="35"></a>
@@ -95,8 +114,8 @@
                         
                             <div>
                                 <figure><img src="img/makerere.png" alt="" class="img-fluid"></figure>
-                                <h2>Survey Fields</h2>
-                                <p>Welcome to Makerere University Online Survey Creation Tool.</p>
+                                <h2><%= resultSet3.getString("survey_name")%></h2>
+                                <p><%= resultSet3.getString("survey_topic")%></p>
                                 <a href="./" class="btn_1 rounded">Return Home</a>
                                 <a href="#start" class="btn_1 rounded mobile_btn">Start Now!</a>
                             </div>
@@ -104,10 +123,55 @@
                         </div>
                         
                     </div>
+                <%
+                        }
+                        connection.close();
+                %>
+
                 <!--============END OF LEFT CONTENT=============-->
                 <!--================RIGHT CONTENT=================-->
                     <div class="col-lg-6" style="padding:10px;"id="start">
                             <h4 style="padding:4em 1.5em 0.7em 5.3em;">Survey Results</h4>
+                            <%
+                                
+                                    connection = DriverManager.getConnection(connectionUrl+database, userid , password);
+                                    Statement statement9=connection.createStatement();
+                                    String sql9 ="select * from take_surveys where survey_id = ";
+                                    if(request.getParameter("name") != null){
+                                        sql9 = sql9 + request.getParameter("name");
+                                    }
+                                    else if(session.getAttribute("name") != null){
+                                        sql9 = sql9 + session.getAttribute("name");
+                                
+                                    }
+                                    ResultSet resultSet9 = statement9.executeQuery(sql9);
+                                    float count_yes = 0;
+                                    float count_no = 0;
+                                    float total = 0;
+
+                                    while(resultSet9.next()){
+                                        if(resultSet9.getString("vote").equals("Yes")){
+                                            count_yes = count_yes + 1;
+                                        }
+                                      if(resultSet9.getString("vote").equals("No")){
+                                            count_no = count_no + 1;
+                                        }
+
+                                        total = total + 1;
+                                    }statement9.close();
+
+                                    int yes_percent =(int)((count_yes/total) * 100);  
+                                    int no_percent = (int)((count_no/total) * 100);
+                                %>
+                                
+    
+
+                            <div class="container" style="padding:0em 8em 1em 9em;">
+                                <div class="progress" style="height:30px;">
+                                    <div class="progress-bar" style="background-color:forestgreen; width:<%= yes_percent%>%"> Yes - <%= yes_percent%>%</div>
+                                    <div class="progress-bar" style="background-color:red; width:<%= no_percent%>%"> No - <%= no_percent%>%</div>
+                                </div>
+                            </div>
                             <div class="row" style="padding:0em 1.5em 1.5em 10em;">
                                 <div class="col-m ">
                                     <div class="tile">
@@ -115,7 +179,11 @@
                                             <table class="table table-hover table-bordered" id="sampleTable">
                                                 <thead>
                                                 <tr>
-                                                    <th>Survey Take Id</th>
+                                                    <th>Id</th>
+                                                    <th>Gender</th>
+                                                    <th>Hall</th>
+                                                    <th>College</th>
+                                                    <th>Vote</th>
                                                     <th style="width:100px; min-width:100px;" class="text-center text-danger"><i class="fa fa-bolt">Action</i></th>
                                                 </tr>
                                                 </thead>
@@ -138,16 +206,27 @@
                                                             resultSet = statement.executeQuery(sql);
 
                                                             while(resultSet.next()){
-                                                    %>
+                                                                Statement statement6=connection.createStatement();
+                                                                String sql6 ="select * from students where id = ";
+                                                                sql6 = sql6 + resultSet.getString("student_id");
+                                                                ResultSet resultSet6 = statement6.executeQuery(sql6);
+                                                                while(resultSet6.next()){
+                                                        %>
                                                     <tr>
                                                         <td> <%=resultSet.getString("id") %></td>
+
+                                                        <td><%=resultSet6.getString("gender")%></td>
+                                                        <td><%=resultSet6.getString("hall")%></td>
+                                                        <td><%=resultSet6.getString("college")%></td>
+                                                        <td><%=resultSet.getString("vote")%></td>
                                                         <td class="text-center">
                                                             <div class="btn-group" role="group" aria-label="Second group">
                                                                 <a href="./taken_survey.jsp?taken_survey_id=<%=resultSet.getString("id")%>&amp;survey_id=<%=url%>" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                    <%
+                                                    <%  
+                                                                }statement6.close();
                                                             }
                                                             connection.close();
                                                         } catch (Exception e) {
@@ -163,7 +242,7 @@
                             </div>
                             
                             <div class = "row" style="padding:0 0 1.5em 10em;"></br>
-                                <h4 >Survey Fields Table</h4>
+                                <h4 >Fields Table</h4>
                                 <a href="./all_survey.jsp" style="position:relative; margin-left:20px; margin-right: 10px;" class="btn btn-danger">Back</a>
                                 <% 
                                     if(request.getParameter("name") != null){ 

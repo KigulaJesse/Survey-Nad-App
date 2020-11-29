@@ -87,6 +87,7 @@
                                 <h2>Create A Survey</h2>
                                 <p>Welcome to Makerere University Online Survey Creation Tool.</p>
                                 <a href="./" class="btn_1 rounded">Return Home</a>
+                                <a href="./create_student.jsp" class="btn_1 rounded" style="background-color:forestgreen;">Add Student
                                 <a href="#start" class="btn_1 rounded mobile_btn">Start Now!</a>
                             </div>
                             <div class="copy"> © 2020 Nad</div>

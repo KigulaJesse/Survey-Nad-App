@@ -147,135 +147,157 @@
                                 </div>
                                 <form method="POST" action="./SubmitSurvey">
                                     <input id="website" name="website" type="text" value="">
+                                    <input type="hidden" name="student_id" value="<%= session.getAttribute("student_id")%>">
                                     <input type="hidden" name="survey_id" value="<%= request.getParameter("survey_id")%>">
                                     <div id="middle-wizard">
 
                                         <!--=====LOOP THROUGH SURVEY FIELS=========-->
                                             <% 
-                                                resultSet2.first();
-                                                do{ 
-                                                    statement3 = connection.createStatement();   
-                                                    String sql3 ="select * from survey_field_attributes where survey_field_id = ";
-                                                    sql3 = sql3 + resultSet2.getString("id");
-                                                    resultSet3 = statement3.executeQuery(sql3);                   
+                                                if(resultSet2.first()){
+                                                    do{ 
+                                                        statement3 = connection.createStatement();   
+                                                        String sql3 ="select * from survey_field_attributes where survey_field_id = ";
+                                                        sql3 = sql3 + resultSet2.getString("id");
+                                                        resultSet3 = statement3.executeQuery(sql3);                   
                                             %>
-                                                    <!--==========RADIO BUTTONS========-->
-                                                        <% 
-                                                            if(resultSet2.getString("field_type").equals("Radio Button")){
-                                                        %>
-                                                            <div class="step">
-                                                                <h3 class="main_question"><strong><%= count%>/<%=total_survey_fields + 1%></strong><%= resultSet2.getString("field_description")%></h3>
-                                                                <% 
-                                                                    while(resultSet3.next()){   
-                                                                %>
+                                                        <!--==========RADIO BUTTONS========-->
+                                                            <% 
+                                                                if(resultSet2.getString("field_type").equals("Radio Button")){
+                                                            %>
+                                                                <div class="step">
+                                                                    <h3 class="main_question"><strong><%= count%>/<%=total_survey_fields + 1%>
+                                                                    <a href="./surveys.jsp" style="position:relative; margin-left: 300px;" class="btn btn-danger">Back</a>
+                                                                    </strong><%= resultSet2.getString("field_description")%></h3>
+                                                                    <% 
+                                                                        while(resultSet3.next()){   
+                                                                    %>
+                                                                            <div class="form-group">
+                                                                                <label class="container_radio version_2"><%= resultSet3.getString("field_attribute_value")%>
+                                                                                    <input type="radio" name="<%= resultSet2.getString("id")%>" value="<%= resultSet3.getString("id")%>" class="required" onchange="getVals(this, 'question_<%= count%>');">
+                                                                                    <span class="checkmark"></span>
+                                                                                </label>
+                                                                            </div>
+                                                                    <% 
+                                                                        }
+                                                                        statement3.close();
+                                                                    %>
+                                                                </div>
+                                                            <%
+                                                                }
+                                                            %>
+                                                        <!--======END OF RADIO BUTTONS=====-->
+                                                        
+                                                        <!--==========CHECK BOES==========-->
+                                                            <% 
+                                                                if(resultSet2.getString("field_type").equals("CheckBox")){
+                                                            %>
+                                                                <div class="step">
+                                                                    <h3 class="main_question"><strong><%= count%>/<%=total_survey_fields + 1%>
+                                                                    <a href="./surveys.jsp" style="position:relative; margin-left: 300px;" class="btn btn-danger">Back</a> 
+                                                                    </strong><%= resultSet2.getString("field_description")%></h3>
+                                                                    <% 
+                                                                        while(resultSet3.next()){   
+                                                                    %>
+                                
                                                                         <div class="form-group">
-                                                                            <label class="container_radio version_2"><%= resultSet3.getString("field_attribute_value")%>
-                                                                                <input type="radio" name="<%= resultSet2.getString("id")%>" value="<%= resultSet3.getString("id")%>" class="required" onchange="getVals(this, 'question_<%= count%>');">
+                                                                            <label class="container_check version_2"><%= resultSet3.getString("field_attribute_value")%>
+                                                                                <input type="checkbox" name="<%= resultSet2.getString("id")%>[]" value="<%= resultSet3.getString("id")%>" class="required" onchange="getVals(this, 'question_<%= count%>');">
                                                                                 <span class="checkmark"></span>
                                                                             </label>
                                                                         </div>
-                                                                <% 
-                                                                    }
-                                                                    statement3.close();
-                                                                %>
-                                                            </div>
-                                                        <%
-                                                            }
-                                                        %>
-                                                    <!--======END OF RADIO BUTTONS=====-->
-                                                    
-                                                    <!--==========CHECK BOXES==========-->
-                                                        <% 
-                                                            if(resultSet2.getString("field_type").equals("CheckBox")){
-                                                        %>
-                                                            <div class="step">
-                                                                <h3 class="main_question"><strong><%= count%>/<%=total_survey_fields + 1%></strong><%= resultSet2.getString("field_description")%></h3>
-                                                                <% 
-                                                                    while(resultSet3.next()){   
-                                                                %>
-                            
-                                                                    <div class="form-group">
-                                                                        <label class="container_check version_2"><%= resultSet3.getString("field_attribute_value")%>
-                                                                            <input type="checkbox" name="<%= resultSet2.getString("id")%>[]" value="<%= resultSet3.getString("id")%>" class="required" onchange="getVals(this, 'question_<%= count%>');">
-                                                                            <span class="checkmark"></span>
-                                                                        </label>
-                                                                    </div>
-                                                                <% 
-                                                                    }
-                                                                    statement3.close();
-                                                                %>
-                                                                
-                                                            </div>
-                                                        <%
-                                                            }
-                                                        %>
-                                                    <!--======END OF CHECK BOXES=======-->
-                                                    
-                                                    <!--========RATINGS=============-->
-                                                        <% 
-                                                            if(resultSet2.getString("field_type").equals("Star Rating")){
-                                                        %>
-                                                            <div class="step">
-                                                                <h3 class="main_question"><strong><%= count%>/<%=total_survey_fields + 1%></strong><%= resultSet2.getString("field_description")%></h3>
-                                                                <% 
-                                                                    int ratecount = 1;
-                                                                    while(resultSet3.next()){
-                                                                %>
-                                                                <div class="form-group rating_wp clearfix">
-                                                                    <label class="rating_type"><%= resultSet3.getString("field_attribute_value")%></label>
-                                                                    <span class="rating">
-                                                                        <input type="radio" class="required rating-input" id="rating-input-<%=ratecount%>-5" name="<%= resultSet2.getString("id")%>_<%= resultSet3.getString("id")%>" value="5 Stars" onchange="getVals(this, 'rating_input_<%= count%>');">
-                                                                        <label for="rating-input-<%=ratecount%>-5" class="rating-star"></label>
-                                                                        <input type="radio" class="required rating-input" id="rating-input-<%=ratecount%>-4" name="<%= resultSet2.getString("id")%>_<%= resultSet3.getString("id")%>" value="4 Stars" onchange="getVals(this, 'rating_input_1');">
-                                                                        <label for="rating-input-<%=ratecount%>-4" class="rating-star"></label>
-                                                                        <input type="radio" class="required rating-input" id="rating-input-<%=ratecount%>-3" name="<%= resultSet2.getString("id")%>_<%= resultSet3.getString("id")%>" value="3 Stars" onchange="getVals(this, 'rating_input_1');">
-                                                                        <label for="rating-input-<%=ratecount%>-3" class="rating-star"></label>
-                                                                        <input type="radio" class="required rating-input" id="rating-input-<%=ratecount%>-2" name="<%= resultSet2.getString("id")%>_<%= resultSet3.getString("id")%>" value="2 Stars" onchange="getVals(this, 'rating_input_1');">
-                                                                        <label for="rating-input-<%=ratecount%>-2" class="rating-star"></label>
-                                                                        <input type="radio" class="required rating-input" id="rating-input-<%=ratecount%>-1" name="<%= resultSet2.getString("id")%>_<%=resultSet3.getString("id")%>" value="1 Star" onchange="getVals(this, 'rating_input_1');">
-                                                                        <label for="rating-input-<%=ratecount%>-1" class="rating-star"></label>
-                                                                    </span>
+                                                                    <% 
+                                                                        }
+                                                                        statement3.close();
+                                                                    %>
+                                                                    
                                                                 </div>
-                                                                <% 
-                                                                    ratecount++;
-                                                                    }
-                                                                    statement3.close();
-                                                                %>
-                                                                
-                                                            </div>
-                                                        <%
-                                                            }
-                                                            count++;
-                                                        %>
-                                                    <!--======END OF RATINGS========--> 
+                                                            <%
+                                                                }
+                                                            %>
+                                                        <!--======END OF CHECK BOXES=======-->
+                                                        
+                                                        <!--========RATINGS=============-->
+                                                            <% 
+                                                                if(resultSet2.getString("field_type").equals("Star Rating")){
+                                                            %>
+                                                                <div class="step">
+                                                                    <h3 class="main_question"><strong><%= count%>/<%=total_survey_fields + 1%>
+                                                                    <a href="./surveys.jsp" style="position:relative; margin-left: 300px;" class="btn btn-danger">Back</a> 
+                                                                    </strong><%= resultSet2.getString("field_description")%></h3>
+                                                                    <% 
+                                                                        int ratecount = 1;
+                                                                        while(resultSet3.next()){
+                                                                    %>
+                                                                    <div class="form-group rating_wp clearfix">
+                                                                        <label class="rating_type"><%= resultSet3.getString("field_attribute_value")%></label>
+                                                                        <span class="rating">
+                                                                            <input type="radio" class="required rating-input" id="rating-input-<%=ratecount%>-5" name="<%= resultSet2.getString("id")%>_<%= resultSet3.getString("id")%>" value="5 Stars" onchange="getVals(this, 'rating_input_<%= count%>');">
+                                                                            <label for="rating-input-<%=ratecount%>-5" class="rating-star"></label>
+                                                                            <input type="radio" class="required rating-input" id="rating-input-<%=ratecount%>-4" name="<%= resultSet2.getString("id")%>_<%= resultSet3.getString("id")%>" value="4 Stars" onchange="getVals(this, 'rating_input_1');">
+                                                                            <label for="rating-input-<%=ratecount%>-4" class="rating-star"></label>
+                                                                            <input type="radio" class="required rating-input" id="rating-input-<%=ratecount%>-3" name="<%= resultSet2.getString("id")%>_<%= resultSet3.getString("id")%>" value="3 Stars" onchange="getVals(this, 'rating_input_1');">
+                                                                            <label for="rating-input-<%=ratecount%>-3" class="rating-star"></label>
+                                                                            <input type="radio" class="required rating-input" id="rating-input-<%=ratecount%>-2" name="<%= resultSet2.getString("id")%>_<%= resultSet3.getString("id")%>" value="2 Stars" onchange="getVals(this, 'rating_input_1');">
+                                                                            <label for="rating-input-<%=ratecount%>-2" class="rating-star"></label>
+                                                                            <input type="radio" class="required rating-input" id="rating-input-<%=ratecount%>-1" name="<%= resultSet2.getString("id")%>_<%=resultSet3.getString("id")%>" value="1 Star" onchange="getVals(this, 'rating_input_1');">
+                                                                            <label for="rating-input-<%=ratecount%>-1" class="rating-star"></label>
+                                                                        </span>
+                                                                    </div>
+                                                                    <% 
+                                                                        ratecount++;
+                                                                        }
+                                                                        statement3.close();
+                                                                    %>
+                                                                    
+                                                                </div>
+                                                            <%
+                                                                }
+                                                                count++;
+                                                            %>
+                                                        <!--======END OF RATINGS========--> 
                                             <% 
-                                                }while(resultSet2.next());
-                                                statement2.close();
+                                                    }while(resultSet2.next());
+                                                }
+                                                
                                             %>
                                         <!--======END OF SURVEY FIELDS===========-->
 
                                         <!--========SUBMIT STEP=======-->
-                                            <div class="submit step">
-                                                <h3 class="main_question"><strong><%= count%>/<%=count%></strong>Are You In Favour Of This Decision</h3>
-                                                <div class="form-group">
-                                                    <label class="container_radio version_2">Yes
-                                                        <input type="radio" name="vote" value="Yes" class="required">
-                                                        <span class="checkmark"></span>
-                                                    </label>
+                                            
+                                            
+                                            <%if(resultSet2.first()){%>
+                                                <div class="submit step">
+                                                    <h3 class="main_question"><strong><%= count%>/<%=count%>
+                                                    <a href="./surveys.jsp" style="position:relative; margin-left: 300px;" class="btn btn-danger">Back</a>
+                                                    </strong>Are You In Favour Of This Decision</h3>
+                                                    <div class="form-group">
+                                                        <label class="container_radio version_2">Yes
+                                                            <input type="radio" name="vote" value="Yes" class="required">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="container_radio version_2">No
+                                                            <input type="radio" name="vote" value="No" class="required">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </div>
+                                                    <h3 class="main_question">Comments</h3>
+                                                    <div class="form-group ">
+                                                        <textarea name="comment" class="form-control review_message required" placeholder="Your Thoughts On This Decision By The University"></textarea>
+                                                    </div>
+                                            <% }else{ %>
+                                                <div class="step">
+                                                    <a href="./surveys.jsp" style="position:relative; margin-left: 180px;" class="btn btn-danger">Back</a>
+                                                    <h2 style="padding:4.5em 0em 0em 0em;" class="main_question">Survey Is not yet Ready</h2>
+
+                                            <% }%>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="container_radio version_2">No
-                                                        <input type="radio" name="vote" value="No" class="required">
-                                                        <span class="checkmark"></span>
-                                                    </label>
-                                                </div>
-                                                <h3 class="main_question">Comments</h3>
-                                                <div class="form-group ">
-                                                    <textarea name="comment" class="form-control review_message required" placeholder="Your Thoughts On This Decision By The University"></textarea>
-                                                </div>
-                                            </div>
                                         <!--=====END OF SUBMIT STEP===-->
                                     </div>
+                                    <%
+                                        statement2.close();
+                                    %>
 
                                     <!-- /middle-wizard -->
                                     <div id="bottom-wizard">
